@@ -1,4 +1,5 @@
 import FeedbackItem from './FeedbackItem';
+import Spinner from './shared/Spinner';
 // React Hook useContext
 import { useContext } from 'react';
 // Bringin in Feedback Context since it is the one we want to use.
@@ -11,12 +12,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 function FeedbackList() {
   // We are defining the FeedbackContext, and bringing it into the component
-  const { feedback } = useContext(FeedbackContext);
+  const { feedback, isLoading } = useContext(FeedbackContext);
 
-  if (!feedback || feedback.length === 0) {
+  if (!isLoading && (!feedback || feedback.length === 0)) {
     return <p>No Feedback Yet</p>;
   }
-  return (
+
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <div className="feedback-list">
       <AnimatePresence>
         {feedback.map((item) => (
